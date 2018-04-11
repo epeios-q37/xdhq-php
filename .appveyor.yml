@@ -1,0 +1,120 @@
+# php.appveyor
+
+environment:
+  version: 20180409
+  affix: xdhq
+  ext: dll
+  zip: $(affix)znd-v$(version)-win-$(platform).zip  
+
+platform:
+# By default, it's the AMD64(/x64) version of PHP which is installed.
+# Have to search how to change this.
+# - x86
+- x64
+
+configuration: Release
+
+os :
+- Visual Studio 2017
+# - Visual Studio 2015
+# - Visual Studio 2013
+
+## Disabled to facilite 'Atlas' toolkit deployment.
+# https://help.appveyor.com/discussions/problems/5616-not-able-to-build-due-to-problem-in-chocolateyinstallps1#comment_41949965
+# install: 
+# - ps: Set-Service wuauserv -StartupType Manual
+# - cinst -y php
+
+## Disabled to facilite 'Atlas' toolkit deployment.
+# before_build:
+# - echo %APPVEYOR_PROJECT_NAME%
+# # Retrieving, building and testing 'ZNDq'.
+# - git clone https://github.com/epeios-q37/zndq.git
+# - cd zndq
+# # To maintainer : content of this section is very similar to the one in 'zndq.appveyor.yml'.
+# - call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
+# - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+# - dir
+# - dir C:\tools\php71
+# - dir C:\tools\php71\dev
+# - curl -L https://github.com/php/php-src/archive/php-7.1.10.tar.gz --output php.tgz
+# - 7z x php.tgz
+# - 7z x php.tar
+# - cd php-src-php-7.1.10
+# - buildconf.bat --add-modules-dir=c:\projects\%APPVEYOR_PROJECT_NAME%\zndq
+# - configure.bat
+# # We do not build from the source (no 'nmake'), as we use the already installed PHP binaries.
+# # 'buildconf.bat' and 'configure.bat' are only launched to generate some files needed
+# # to compile the extension (namely 'main/config.w32.h').
+# - dir
+# - cd ..
+# - msbuild zndq.vcxproj
+# - echo "***** 'ZNDq' TEST BEGIN *****" && C:\tools\php71\php -dextension=./zndq.dll test.php && echo "***** 'ZNDq' TEST END *****"
+# # 'Installing' 'ZNDq'.
+# - copy zndq.dll ..
+# - copy zndq.xcfg ..
+# - copy zndq.xlcl ..
+# - cd ..
+
+## Disabled to facilite 'Atlas' toolkit deployment.
+# test_script:
+# - echo "***** 'XDHq' TEST BEGIN *****" && C:\tools\php71\php -dextension=./zndq.dll test.php && echo "***** 'XDHq' TEST END *****"
+
+# matrix:
+  # allow_failures:
+  # - os: Visual Studio 2017
+  
+skip_tags: true  
+  
+after_build:
+# ".zip" part.
+- set dir=%affix%-php-%version%%-%platform%
+- mkdir %dir% || exit 1
+- copy %affix%znd.%ext% %dir%\%affix%znd.%ext% || exit 1
+- 7z a %zip% %dir%
+# '.tar.gz' part, for the NPM installation ('node-pre-gyp') of the 'Atlas' toolkit component.
+- if "%platform%"=="x86" set platform=ia32
+- echo | set /p="%affix%znd-v%version%" >>tmpfile.tmp || true
+- echo | set /p="-win32-" >>tmpfile.tmp || true
+- echo | set /p="%platform%" >>tmpfile.tmp || true
+- set /p addon= <tmpfile.tmp
+- echo .%addon%.
+- set dir=win32-%platform%
+- mkdir %dir%
+- copy %affix%znd.dll %dir%
+# It MUST be '.tar.gz' to be retrieved by 'node-pre-gyp' when installed with 'npm' !
+- 7z a -ttar -so dummy %dir% | 7z a -si %addon%.tar.gz
+
+
+artifacts:
+- path: '*.zip'
+
+artifacts:
+- path: $(zip)
+- name: tgz
+  path: '*.tar.gz'
+
+deploy:
+  - provider: GitHub
+    tag: v$(version)
+    description: ''
+    auth_token:
+      secure: kKebvPLjikQbZ7E1Vm8omoYc9K0wOcKxjWsglp3+D4fV9ev/FaWr8ZBI+AseOTis
+    draft: false
+    prerelease: false
+    artifact: tgz
+    on:
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      jdk_ver: "1.6.0"
+
+  - provider: GitHub
+    tag: v$(version)
+    description: ''
+    auth_token:
+      secure: kKebvPLjikQbZ7E1Vm8omoYc9K0wOcKxjWsglp3+D4fV9ev/FaWr8ZBI+AseOTis
+    draft: false
+    prerelease: false
+    artifact: $(zip)
+    on:
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      jdk_ver: "1.6.0"
