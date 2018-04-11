@@ -101,7 +101,6 @@ deploy:
     artifact: tgz
     on:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      jdk_ver: "1.6.0"
 
   - provider: GitHub
     tag: v$(version)
@@ -113,4 +112,3 @@ deploy:
     artifact: $(zip)
     on:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      jdk_ver: "1.6.0"
