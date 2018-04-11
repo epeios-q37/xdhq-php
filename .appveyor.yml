@@ -85,10 +85,6 @@ after_build:
 # It MUST be '.tar.gz' to be retrieved by 'node-pre-gyp' when installed with 'npm' !
 - 7z a -ttar -so dummy %dir% | 7z a -si %addon%.tar.gz
 
-
-artifacts:
-- path: '*.zip'
-
 artifacts:
 - path: $(zip)
 - name: tgz

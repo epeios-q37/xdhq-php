@@ -18,7 +18,7 @@ script:
 - phpize
 - ./configure
 - make -j
-- cp modules/zndq.so zndq.xcfg zndq.xlcl ..
+- cp modules/zndq.so ZNDq.php zndq.xcfg zndq.xlcl ..
 - popd
 - php -dextension=./zndq.so zndq/test.php
 # Managing 'XDHq'.
