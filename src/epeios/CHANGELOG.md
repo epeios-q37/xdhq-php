@@ -1,5 +1,13 @@
 # *Epeios* *CHANGELOG*
 
+## 2018-04-12
+- *shared*:
+  - **$**: adaptation to changes in underlying modules,
+- EPSMSC:
+  - **$**,
+- SCLMISC:
+  - the `SCLMISC(Target|Product|Organization)Name` which had to be defined by the user are replaced by functions, to avoid sharing of the variables between dynamic libraries, as it seems to occur under *GNULinux*,
+
 ## 2018-04-09
 
 - SCLNJS:

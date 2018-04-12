@@ -68,9 +68,9 @@ void sclznd::SCLZNDRegister( sclznd::sRegistrar &Registrar )
 
 qGCTOR( xdhqznd )
 {
+	sclmisc::SetTargetName( NAME_LC );
+	sclmisc::SetProductName( NAME_MC );
 	// As a daemon, is often interrupted with CTRL-C.
 	sclmisc::ExitOnSignal();
 }
 
-const char *sclmisc::SCLMISCTargetName = NAME_LC;
-const char *sclmisc::SCLMISCProductName = NAME_MC;

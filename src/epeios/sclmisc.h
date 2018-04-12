@@ -43,10 +43,16 @@
 /***************/
 
 namespace sclmisc {
-	// Three below items MUST be defined by user.
-	extern const char *SCLMISCTargetName;
-	extern const char *SCLMISCProductName;
-	extern const char *SCLMISCOrganizationName;
+	// The three below 'Set...Name(...)' DON'T copied 'Name', but store only the given pointer.
+	void SetTargetName( const char *Name );
+	const char *GetTargetName( void );
+
+	void SetProductName( const char *Name );
+	const char *GetProductName( void );
+
+	void SetOrganizationName( const char *Name );
+	const char *GetOrganizationName( void );
+
 
 	bso::bool__ IsInitialized( void );
 
@@ -225,15 +231,15 @@ namespace sclmisc {
 	// Deletes the file which contains the lasting registry.
 	void DumpLastingRegistryFile(
 		txf::sWFlow &Flow,
-		const char *Target = SCLMISCTargetName,
-		const char *Product = SCLMISCProductName,
-		const char *Organization = SCLMISCOrganizationName );
+		const char *Target = NULL,
+		const char *Product = NULL,
+		const char *Organization = NULL );
 
 	// Deletes the file which contains the lasting registry.
 	void DeleteLastingRegistryFile(
-		const char *Target = SCLMISCTargetName,
-		const char *Product = SCLMISCProductName,
-		const char *Organization = SCLMISCOrganizationName );
+		const char *Target = NULL,
+		const char *Product = NULL,
+		const char *Organization = NULL );
 
 	void DumpRegistriesAndOrLocalesIfRequired( void );
 

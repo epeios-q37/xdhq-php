@@ -36,7 +36,30 @@ using namespace sclmisc;
 
 namespace {
 	str::wString BinPath_;
+	static const char *TargetName_ = NULL;
+	static const char *ProductName_ = NULL;
+	static const char *OrganizationName_ = NULL;
 }
+
+#define SG( name ) \
+void sclmisc::Set##name##Name( const char *Name ) {\
+	if ( name##Name_ != NULL )\
+		qRFwk();\
+\
+	name##Name_ = Name;\
+}\
+\
+const char *sclmisc::Get##name##Name( void )\
+{\
+	if ( name##Name_ == NULL )\
+		qRFwk();\
+\
+	return name##Name_;\
+}
+
+SG( Target );
+SG( Product );
+SG( Organization );
 
 const str::dString &sclmisc::GetBinPath( void )
 {
@@ -422,7 +445,7 @@ namespace {
 	qRB
 		Filename.Init();
 
-		if ( GetAppDataConfigurationFilename_( Filename, SCLMISCTargetName, SCLMISCProductName, SCLMISCOrganizationName, false ) )
+		if ( GetAppDataConfigurationFilename_( Filename, GetTargetName(), GetProductName(), GetOrganizationName(), false ) )
 			LoadAppData_( Filename, sclrgstry::lLasting );
 	qRR
 	qRT
@@ -483,7 +506,7 @@ namespace {
 	qRB
 		Filename.Init();
 
-		GetAppDataConfigurationFilename_( Filename, SCLMISCTargetName, SCLMISCProductName, SCLMISCOrganizationName, true );
+		GetAppDataConfigurationFilename_( Filename, GetTargetName(), GetProductName(), GetOrganizationName(), true );
 
 		StoreAppData_( Filename, sclrgstry::lLasting );
 	qRR
@@ -497,6 +520,8 @@ void sclmisc::StoreLastingRegistry( void )
 	StoreAppData_();
 }
 
+#define GET( name )	if ( name == NULL ) name = Get##name##Name()
+
 void sclmisc::DumpLastingRegistryFile(
 	txf::sWFlow &OFlow,
 	const char *Target,
@@ -509,6 +534,10 @@ qRH
 	xtf::extended_text_iflow__ XIFlow;
 qRB
 	Name.Init();
+
+	GET( Target );
+	GET( Product );
+	GET( Organization );
 
 	if ( GetAppDataConfigurationFilename_( Name, Target, Product, Organization, false) ) {
 		IFlow.Init( Name );
@@ -529,6 +558,10 @@ void sclmisc::DeleteLastingRegistryFile(
 qRH
 	fnm::rName Name;
 qRB
+	GET( Target );
+	GET( Product );
+	GET( Organization );
+
 	Name.Init();
 
 	if ( GetAppDataConfigurationFilename_( Name, Target, Product, Organization, false ) )
@@ -552,10 +585,10 @@ qRH
 qRB
 	if ( !IgnoreXFiles ) {
 		LocaleRootPath.Init();
-		sclrgstry::BuildRootPath( "Locale", SCLMISCTargetName, LocaleRootPath );
+		sclrgstry::BuildRootPath( "Locale", GetTargetName(), LocaleRootPath );
 
 		RegistryRootPath.Init();
-		sclrgstry::BuildRootPath( "Configuration", SCLMISCTargetName, RegistryRootPath );
+		sclrgstry::BuildRootPath( "Configuration", GetTargetName(), RegistryRootPath );
 
 		scllocale::Load( scllocale::tMain, LocaleFlow, LocaleDirectory );
 
@@ -634,7 +667,7 @@ qRH
 	fnm::name___ Location;
 qRB
 	FileName.Init();
-	Success = GuessFileName_( SCLMISCTargetName, Suffix, SuggestedDirectory, FileName );
+	Success = GuessFileName_( GetTargetName(), Suffix, SuggestedDirectory, FileName );
 
 	if ( Success )
 		if ( Flow.Init( FileName, err::hUserDefined ) != tol::rSuccess )
@@ -666,7 +699,7 @@ namespace {
 			Meaning.SetValue( "" );	// Will not be translated, as the locale file could not be red.
 			// Both tags below will replace the '%0' above.
 			Meaning.AddTag( "Unable to open locale file" );	
-			Meaning.AddTag( SCLMISCTargetName );
+			Meaning.AddTag( GetTargetName() );
 			ReportAndAbort( Meaning );
 		}
 	qRR
@@ -690,7 +723,7 @@ namespace {
 		if ( !Success && qRPT ) {
 			Meaning.Init();
 			Meaning.SetValue( SCLMISC_NAME "_UnableToOpenConfigurationFile" );
-			Meaning.AddTag( sclmisc::SCLMISCTargetName );
+			Meaning.AddTag( sclmisc::GetTargetName() );
 			ReportAndAbort( Meaning );
 		}
 	qRR;
@@ -840,7 +873,7 @@ void sclmisc::LoadProject(
 	const fnm::name___ &Directory,
 	str::string_ &Id )
 {
-	sclrgstry::LoadProject( Flow, SCLMISCTargetName, Directory, Id );
+	sclrgstry::LoadProject( Flow, GetTargetName(), Directory, Id );
 
 	LoadLocale_( sclrgstry::GetRawLevel( sclrgstry::lProject ), scllocale::tProject );
 }
@@ -849,7 +882,7 @@ void sclmisc::LoadProject(
 	const fnm::name___ &FileName,
 	str::string_ &Id )
 {
-	sclrgstry::LoadProject( FileName, SCLMISCTargetName, Id );
+	sclrgstry::LoadProject( FileName, GetTargetName(), Id );
 
 	LoadLocale_( sclrgstry::GetRawLevel( sclrgstry::lProject ), scllocale::tProject );
 }

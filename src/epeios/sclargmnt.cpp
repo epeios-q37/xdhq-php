@@ -1341,7 +1341,7 @@ qRB
 
 	DefaultOne = Command == Value;
 
-	cio::COut << sclmisc::SCLMISCTargetName << " ";
+	cio::COut << sclmisc::GetTargetName << " ";
 
 	if ( DefaultOne )
 		cio::COut << '[';

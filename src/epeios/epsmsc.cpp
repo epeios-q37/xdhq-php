@@ -46,5 +46,8 @@ void epsmsc::PrintLicense(
 	<< pad << "see <http://www.gnu.org/licenses/>" << nl;
 }
 
-const char *sclmisc::SCLMISCOrganizationName = "q37.info";
+qGCTOR( epsmsc )
+{
+	sclmisc::SetOrganizationName( "q37.info" );
+}
 
