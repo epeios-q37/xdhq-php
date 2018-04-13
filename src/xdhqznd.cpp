@@ -23,10 +23,13 @@
 #include "treep.h"
 #include "xdhp.h"
 
+#include "epsmsc.h"
 #include "iof.h"
 #include "xpp.h"
 #include "lcl.h"
 #include "sclznd.h"
+
+const sclmisc::sInfo xdhqznd::Info( NAME_LC, "XDHq", EPSMSC_ORGANIZATION );
 
 void sclznd::SCLZNDInfo( txf::sWFlow &Flow )
 {
@@ -68,8 +71,6 @@ void sclznd::SCLZNDRegister( sclznd::sRegistrar &Registrar )
 
 qGCTOR( xdhqznd )
 {
-	sclmisc::SetTargetName( NAME_LC );
-	sclmisc::SetProductName( NAME_MC );
 	// As a daemon, is often interrupted with CTRL-C.
 	sclmisc::ExitOnSignal();
 }
