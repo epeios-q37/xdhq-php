@@ -154,8 +154,7 @@ namespace n4all {
 	// Will be used as 'extern "C"', so no reference can be used (I suppose).
 	typedef cLauncher *(fRegister)(
 		cRegistrar *Registrar,
-		sData *Data,
-		const sclmisc::sInfo &Info );
+		sData *Data );
 }
 
 #endif

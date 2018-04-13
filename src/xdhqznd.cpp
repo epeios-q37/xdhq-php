@@ -56,7 +56,7 @@ namespace {
 	}
 }
 
-void sclznd::SCLZNDRegister( sclznd::sRegistrar &Registrar )
+const sclmisc::sInfo &sclznd::SCLZNDRegister( sclznd::sRegistrar &Registrar )
 {
 	Registrar.Register( ReturnArgument_ );	// 0.
 	Registrar.Register( treep::New, treep::Delete, treep::PushTag, treep::PopTag, treep::PutValue, treep::PutAttribute );	// 1 - 6.
@@ -66,7 +66,7 @@ void sclznd::SCLZNDRegister( sclznd::sRegistrar &Registrar )
 	Registrar.Register( xdhp::SetAttribute, xdhp::GetAttribute, xdhp::RemoveAttribute, xdhp::SetProperty, xdhp::GetProperty );	// 22 - 26.
 	Registrar.Register( xdhp::Focus );	// 27.
 
-	
+	return xdhqznd::Info;
 }
 
 qGCTOR( xdhqznd )

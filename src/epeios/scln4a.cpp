@@ -33,15 +33,15 @@ extern "C" FUNCTION_SPEC n4all::fRegister N4ALL_REGISTER_FUNCTION_NAME;
 
 n4all::cLauncher *N4ALLRegister(
 	n4all::cRegistrar *Registrar,
-	n4all::sData *Data,
-	const sclmisc::sInfo &Info )
+	n4all::sData *Data )
 {
 	n4all::cLauncher *Launcher = NULL;
 qRFH
+	const sclmisc::sInfo *Info;
 qRFB
-	sclmisc::Initialize( *Data->SCLRack, *Data->Location, Info );
+	Launcher = scln4a::SCLN4ARegister( *Registrar, Data->UP, Info );
 
-	Launcher = scln4a::SCLN4ARegister( *Registrar, Data->UP );
+	sclmisc::Initialize( *Data->SCLRack, *Data->Location, *Info );
 qRFR
 	if ( Launcher != NULL )
 		delete Launcher;
