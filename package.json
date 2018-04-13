@@ -12,7 +12,7 @@
     "host": "https://github.com"
   },
   "dependencies": {
-    "zndq": "2018.4.9"
+    "zndq": "2018.4.13"
   },
   "devDependencies": {},
   "scripts": {
