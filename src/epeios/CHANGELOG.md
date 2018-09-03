@@ -1,38 +1,301 @@
 # *Epeios* *CHANGELOG*
 
-## 2018-04-13
-- *shared*:
-  - **$**: adaptation to changes in underlying modules,
-- EPSMSC:
-  - **$**,
-- N4ALL:
-  - **$**,
+## *Shortcuts*
+
+- [adpt]: Adaptation to changes in underlying modules;
+- [stdz]: modification to comply with current standards;
+
+## 2018-08-16
+
+- CSDBNS:
+  - [adpt];
+  - [stdz];
+- CSDMXS:
+  - [adpt];
+- CSDSCB:
+  - reverting some modifications due to modifications on components at otigine of this problem (*Atlas* toolkit);
+  - [stdz];
+
+## 2018-08-14
+
+- FDR:
+  - when there was still data in the cache, dismissing was not handled properly;
+
+## 2018-08-07
+
+- SCLZND:
+  - introducing 'sLong';
+
+## 2018-08-07
+
+- STSFSM:
+  - handling thread-safety with item rather then mutexes;
+
+## 2018-08-05
+
+- STSFSM:
+  - handling thread-safety;
+
+## 2018-07-28
+
+- SCLJRE:
+  - introducing array of strings (`(d|w)XStrings`);
+
+## 2018-07-23
+
+- CSDBNS:
+  - [adpt],
+  - Introducing `Undefined` as service (port) value,
+- CSDMXS:
+  - [adpt],
+- CNVFDR:
+  - fixing some template issues occurring with *g++*,
+- FDR:
+  - [adpt],
+- MTX:
+  - `UndefinedHandler` -> `Undefined`,
+- SCLERROR:
+  - [adpt],
+- SCLNJS:
+  - fixing some template issues occuring with *g++*,
+- THT:
+  - [adpt],
+
+## 2018-07-17
+
+- SCLXDHTML:
+  - handling DEMO mode as server,
+- XDHCMN:
+  - handling DEMO mode as server,
+- XDHUPS:
+  - handling DEMO mode as server,
+
+## 2018-07-16
+
+- N4NJS:
+  - introducing integer type,
+- SCLNJS:
+  - introducing integer type,
+- V8Q:
+  - introducing integer type,
+
+## 2018-07-15
+
+- SCLNJS:
+  - handling `int`parameter,
+- XDHDWS:
+  - adding`Proxy::Execute(...)` variant,
+
+## 2018-07-14
+
+- SCLXDHTML
+  - introducing *Demo* mode,
+- XDHCMN
+  - introducing *Demo* mode,
+- XDHUPS:
+  - introducing *Demo* mode,
+
+## 2018-07-04
+
+- MSCMDD:
+  - [adpt];
+  - [stdz];
+
+## 2018-07-03
+
+- MSCMDD:
+  - [stdz];
+- MSCMDF:
+  - [stdz];
+- MSCMDM:
+  - [adpt];
+  - [stdz];
+- MSCMLM:
+  - [adpt];
+  - [stdz];
+
+## 2018-06-11
+
+- CSDBNS:
+  - [adpt];
+- CSDSCB:
+  - removing `IODriver` parameter to `cProcessing::[CSDSCB]PreProcess(...)` [virtual] method as the use of this parameter leads to incompatibilities between backends and the *Atlas* toolkit;
+- CSDLEC:
+  - [adpt];
+- CSDMXS:
+  - [adpt];
+  - following modifications made to *CSDSCB*, reverting some modifications introduced with the *Atlas* toolkit, but which were incompatible with remote backends;
+- SCLBACKND:
+  - [adpt];
+- SCLDAEMON:
+  - [adpt];
+  - removing `[SCLDAEMON]PreProcess(...)` to `cDaemon`, as it causes some issue with embedded backends;
+
+## 2018-06-08
+
+- *Common*:
+  - fixing incomplete first request processing;
+- FBLBKD:
+  - some modifications which facilitates the fixing of a bug;
+- SCLBACKND:
+  - [adpt];
+- SCLDAEMON:
+  - standardization of `daemon___` (becomes `cDaemon`);
+  - adding `[SCLDAEMON]PreProcess(...)` to `cDaemon`;
+
+## 2018-05-31
+
+- SCLPLUGIN:
+ - [adpt];
+- STSFSM:
+  - fixing matching on shorter entry;
+
+## 2018-05-29
+
+- SCLXDHTML:
+  - rewriting backend handling in *login* context,
+
+## 2018-05-17
+
+- SCLXDHTML:
+  - adding some missing methods to `sProxy`,
+  - the *About* and *Refesh* actions are automatically added,
+
+## 2018-05-16
+
+- CDGURL:
+  - [adpt],
+- CNVFDR:
+  - improvements,
+- SCLIMISC:
+  - standardization,
+- SCLXDHTML:
+  - the handling of the *XSL* files (either name or content is sent) can now be retrieved from registry,
+  - fixing element disabling bug,
+  - improvements,
+  - [adpt],
+
+## 2018-05-15
+
+- FDR:
+  - `Commit()`does no more return a boolean,
+  - The `Unlock` parameter of the `Dismiss(...)`/`Commit(...)` methods, when set to `false`, prevents the setting to `0` of the `Red_`/`Written_` variables, 
+
+## 2018-05-14
+
+- FLX:
+  - adding `Init(...)` methods with a default value for the `ThreadSafety` parameter,
+
+## 2018-05-11
+
+- FDR:
+  - adding handling of the amount of data written in the write driver,
+- FLW:
+  - using the count of the written data amount made in *FDR* instead of handling this internally,
+
+## 2018-05-10
+
+- SCLXDHTML:
+  - the callbacks now receive a *Mode* parameters,
+
+## 2018-05-03
+
+- SCLXDHTML
+  - regarding the *XSL* files, switching from old behavior (transmitting file's content) to new one (transmitting file's name),
+
+## 2018-04-29
+
+- CSDMXC:
+  - when failing to connect to server, throws now a specific error,
+
+## 2018-04-28
+
 - N4ALLW:
-  - **$**,
+  - reverting previous modification,
+- SCLN4A:
+  - reinforcing error handling,
+
+## 2018-04-27
+
+- N4ALLW:
+  - skip registration if a registration has been already made,
+
+## 2018-04-17
+
+- FBLBKD:
+  - [adpt],
+- FBLBRQ:
+  - [adpt],
+- SCLI:
+  - creation,
+- SCLARGMNT:
+  - [adpt],
+- SCLBACKND:
+  - [adpt],
+- SCLDAEMON:
+  - [adpt],
+- SCLFRNTND:
+  - [adpt],
+- SCLJRE:
+  - [adpt],
+- SCLMISC:
+  - moving info related stuff to new *SCLI* library,
+- SCLN4A:
+  - [adpt],
+- SCLNJS:
+  - [adpt],
+- SCLTOOL:
+  - [adpt],
+- SCLXDHTML:
+  - [adpt],
+- SCLZND:
+  - [adpt],
+ 
+## 2018-04-16
+
+- SCLFRNTND:
+  - [adpt],
+- SCLXDHTML:
+  - [adpt],
+
+## 2018-04-14
+
+- SCLJRE:
+  - [adpt],
+- SCLNJS:
+  - [adpt],
+
+## 2018-04-13
+
+- EPSMSC:
+  - [adpt],
+- N4ALL:
+  - [adpt],
+- N4ALLW:
+  - [adpt],
 - SCLMISC:
   - removing all functions and global variables related to `(Target|Product|Organization)Name`, as *PHP*, under, at least, *GNU/Linux*, loads extension using the `RTLD_GLOBAL` parameter, which causes all global variables to be shared between all dynamic libraries,
   - introducing `sInfo`,
 - SCLARGMNT:
-  - **$**,
+  - [adpt],
 - SCLN4A:
-  - **$**,
+  - [adpt],
 
 ## 2018-04-12
-- *shared*:
-  - **$**: adaptation to changes in underlying modules,
+
 - EPSMSC:
-  - **$**,
+  - [adpt],
 - SCLMISC:
   - the `SCLMISC(Target|Product|Organization)Name` which had to be defined by the user are replaced by functions, to avoid sharing of the variables between dynamic libraries, as it seems to occur under *GNULinux*,
 - SCLARGMNT:
-  - **$**,
+  - [adpt],
 
 ## 2018-04-09
 
 - SCLNJS:
-  - adaptation to  changes in underlying modules,
+  - [adpt],
 - SCLZND:
-  - adaptation to  changes in underlying modules,
+  - [adpt],
 
 ## 2018-04-07
 
@@ -46,11 +309,11 @@
 - N4ALL:
   - introducing `sEnv` needed by adaptation to changes in underlying modules,
 - N4ALLW:
-  - adaptation to changes in underlying modules,
+  - [adpt],
 - N4JRE:
-  - adaptation to changes in underlying modules,
+  - [adpt],
 - SCLJRE:
-  - adaptation to changes in underlying modules,
+  - [adpt],
 
 ## 2018-03-28
 
@@ -237,7 +500,7 @@
   
 ## 2017-12-28:
 - *shared*:
-  - **$** : adding `Execute` function,
+  - **$**: adding `Execute` function,
 - CDSDCMN:
   - adding `Put(...)` variant to resolve some template ambiguity,
 - XDHCMN:
@@ -360,7 +623,7 @@
 
 ## 2017-12-07:
 - *shared*:
-  - **$** : adding strings and callbacks handling.
+  - **$**: adding strings and callbacks handling.
 - N4NJS:
   - **$**.
 
@@ -370,7 +633,7 @@
 
 ## 2017-12-05:
 - *shared*:
-  - **$** : reworking of the content handling setting to handle correctly the widgets (continued).
+  - **$**: reworking of the content handling setting to handle correctly the widgets (continued).
 - SCLXDHTML:
   - **$**,
   - some function are becoming `rSession` methods,
@@ -388,7 +651,7 @@
 
 ## 2017-12-04:
 - *shared*:
-  - **$** : Reworking of the content handling setting to handle correctly the widgets.
+  - **$**: Reworking of the content handling setting to handle correctly the widgets.
 - SCLXDHTML:
   - **$**.
 - XDHCMN:
@@ -427,7 +690,7 @@
 - N4JRE, SCLJRE:
   - Adding *Short* *Java* type related stuff.
 - SCK:
-  - Adding default timout parameter.
+  - Adding default timeout parameter.
 - SCLJRE:
   - Fixing `Null()`, according modification of `JREq`.
   - Moving `Delete_` to *.cpp* to avoid some confusion by compilators when user declares some function of some name.
@@ -439,12 +702,12 @@
   - Adding `R`(ead) and `W`(rite) prefix as synonym for `I`(nput) and `O`(utput).
 
 ## 2017-11-24:
-- SCLXDHTML, XDHDWS, XDHUJP :
+- SCLXDHTML, XDHDWS, XDHUJP:
   - Introducing the possibility to put the content before handling widgets (*jQuery* related stuff) when setting the layout, or some widget (*jQTE*, for example) are not properly pre-filled. 
 
 ## 2017-11-21:
 - SCLFRNTND:
-  - Fixing bad handling when no backend is selected.
+  - Fixing bad handling when no back-end is selected.
 
 ## 2017-11-20:
 - SCLMISC:
@@ -471,7 +734,7 @@
   - Fixing *Clang* warning.
 - N4ZND, SCLZND
   - Implementing *Stream* object, and *Long* and *Bool*(ean) types.
-- SCLJRE :
+- SCLJRE:
   - Introducing the new standard where objects are initialized with the `sCaller`, and not the result of one of its method.
 
 ## 2017-10-27:
@@ -482,7 +745,7 @@
 
 ## 2017-10-18:
 - TOL:
-    - Surrounding class definition in `qG(C|D)TOR(...)` with anonymous namespace, so that such defined global (con|de)structor will not be shared between different librarires under *GNU/Linux*.
+    - Surrounding class definition in `qG(C|D)TOR(...)` with anonymous namespace, so that such defined global (con|de)structor will not be shared between different libraries under *GNU/Linux*.
 
 ## 2017-10-17:
 - SCLLOCALE
@@ -623,7 +886,7 @@
 - SCLNJS:
   - Adaptation to changes in *NJS*.
 
-(2017-06-29 : This file becomes a *markdown* file.)
+(2017-06-29: This file becomes a *markdown* file.)
 
 ## 2017-06-20:
 - DLBRRY:
@@ -1034,7 +1297,7 @@
 
 ## 2016-10-24:
 - CSDBNC:
-	-  Removing 'OwnershipTaken' argument in 'cProcessing::CSDSCBPreProcess(...)', in favor of  the boolean returned value of 'cProcessing::CSDSCBPostProcess'.
+	-  Removing 'OwnershipTaken' argument in `cProcessing::CSDSCBPreProcess(...)`, in favor of  the boolean returned value of `cProcessing::CSDSCBPostProcess`.
 - CSDBNC, CSDLEC, CSDMXS, SCLDAEMON:
 	- Adaptation to changes in 'CSDBNC'.
 - DTW:
@@ -1167,8 +1430,8 @@
 
 ## 2016-09-21:
 - ERR:
-	- Fixing bug which blocks all error handling in other threads after a 'ERRFinal'.
-- RGSTRY :	
+  - Fixing bug which blocks all error handling in other threads after a 'ERRFinal'.
+- RGSTRY:
 	- Fixing 'multi_level_registry_::Push(...)' bug.
 	- Fixing 'multi_level_registry_::Set(...)' bug.
 - SCLMISC:
@@ -1808,7 +2071,7 @@
 	- Fixing Clang complainings.
 - GLOBAL:
 	- Introducing new conventions.
-- PLGN :	
+- PLGN:	
 	- Fixing 'rRetrievers::Plugin(...)' wrong deletion.
 
 ## 2016-01-19:
@@ -1914,7 +2177,7 @@
 ## 2015-12-08:
 - BSO, TOL:
 	- Conversion from string to number are now more complete.
-- IAS :	
+- IAS:	
 	- Fixing CLang complainig.
 - RGSTRY:
 	- Adaptation to modifications in 'BSO'.
@@ -1999,10 +2262,10 @@
 - DLBRRY:
 	- Fixing 'clang' complaining.
 - SCLFRNTND:
-	- : As 'kernel___' instances are now handled externally, 'Connect(...)' functions has been replace by functions
+	- As 'kernel___' instances are now handled externally, 'Connect(...)' functions has been replace by functions
 	    filling 'features___' instances.
 - SCLXDHTML:
-	- : 'login::GetBackendFeatures(...)' deals now with 'sclfrntnd::features___'.
+	- 'login::GetBackendFeatures(...)' deals now with 'sclfrntnd::features___'.
 
 ## 2015-11-19:
 - SCLXDHTML:
@@ -2076,7 +2339,7 @@
 
 ## 2015-10-07:
 - ERR:
-	- : Skip the 'qRR' for a 't_Return' error type.
+	- Skip the 'qRR' for a 't_Return' error type.
 
 ## 2015-10-06:
 - DIR:
@@ -2105,7 +2368,7 @@
 	- Misc. changes.
 
 ## 2015-09-24:
-- XDHCMN : 'args[)]' -> 'digest[_]'.
+- XDHCMN: 'args[)]' -> 'digest[_]'.
 
 ## 2015-09-23:
 - SCLXDHTML:
@@ -2274,7 +2537,7 @@
 
 ## 2015-07-07:
 - XDHJST:
-	- : Adding 'TagName' parameters to 'GetEventsAbstract()' function to properly handle the default action.
+	- Adding 'TagName' parameters to 'GetEventsAbstract()' function to properly handle the default action.
 
 ## 2015-07-15:
 - NTVSTR:
@@ -2282,7 +2545,7 @@
 
 ## 2015-07-10:
 - XPP:
-	- : Subsitutions occurs now to the 'href' and 'select' attributes of the 'expand' directive , and the 'value' attribute of the 'set' directive too.
+	- Subsitutions occurs now to the 'href' and 'select' attributes of the 'expand' directive , and the 'value' attribute of the 'set' directive too.
 
 ## 2015-07-09:
 - BCH
@@ -2358,7 +2621,7 @@
 
 ## 2015-06-11:
 - MTHTMC:
-	- :Introducing 'tokens__'.
+	- Introducing 'tokens__'.
 
 ## 2015-06-10:
 - SCLLOCALE:
@@ -2374,14 +2637,14 @@
 	- timecode with separators are now handled correct.
 
 ## 2015-06-08:
-- GLOBAL : 
+- GLOBAL: 
 	- Adaptaiton to changes in miscellaneous libraries.
 - AGS:
 	- 'A_STORAGE()' -> 'qAS(_)'.
 - ERR:
 	- Renaming/removing/adding some macros.
 - MTHMTC:
-	- # Fixing misssing '&'.
+	- Fixing misssing '&'.
 - SDR:
 	- 'E_NIL' -> 'qNIL'.
 	- 'E_SDRIVER' ->'qSD__'.
@@ -2537,7 +2800,7 @@
 
 ## 2015-04-13:
 - GLOBAL:
-	- Fixing file encoding issues which made crash 'Xcode'. NOTA : all non-ASCII characters were stripped.
+	- Fixing file encoding issues which made crash 'Xcode'. NOTA: all non-ASCII characters were stripped.
 
 ## 2015-04-12:
 - DLBRRY:
@@ -2671,7 +2934,7 @@
 	- Adaptation to changes in 'FLX'.
 - SCLRGSTRY:
 	- 'GetUnsigneNumber(...)' returns now the correct value.
-	- : Modifying 'GetSigneNumber_(...)' to take account of changes in 'STR'.
+	- Modifying 'GetSigneNumber_(...)' to take account of changes in 'STR'.
 - SCLTOOL:
 	- Retrieving signal handling from 'TOL'.
 - STR:
@@ -2750,5 +3013,15 @@
 - NTVSTR:
 	- Adding method for int, to avoid to have to cast NULL (defined as '0') into '(const ntvstr::char__ *)'.
 		
+## Notes
 
+[adpt]:#Adaptation
+[stdz]:#Standardization
+  
+### Adaptation
 
+Adaptation to changes in underlying modules. 
+
+### Standardization
+
+Modification to comply with current standards.

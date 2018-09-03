@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 1999-2017 Claude SIMON (http://q37.info/contact/).
+	Copyright (C) 1999 Claude SIMON (http://q37.info/contact/).
 
 	This file is part of the Epeios framework.
 
@@ -33,6 +33,8 @@
 #include "plgn.h"
 
 using namespace sclmisc;
+
+using scli::sInfo;
 
 namespace {
 	str::wString BinPath_;
@@ -815,7 +817,7 @@ void sclmisc::EraseProjectRegistry( void )
 
 #define C( name ) case pt##name: return #name; break
 
-const char *sclmisc::GetLabel( project_type__ ProjectType )
+const char *sclmisc::GetLabel( eProjectType ProjectType )
 {
 	switch ( ProjectType ) {
 	C( New );
@@ -838,7 +840,7 @@ static void FillProjectAutomat_( void )
 	stsfsm::Fill( ProjectAutomat_, pt_amount, GetLabel );
 }
 
-project_type__ sclmisc::GetProjectType( const str::string_ &Pattern )
+eProjectType sclmisc::GetProjectType( const str::string_ &Pattern )
 {
 	return stsfsm::GetId( Pattern, ProjectAutomat_, pt_Undefined, pt_amount );
 }
@@ -904,7 +906,7 @@ qRE
 }
 
 void sclmisc::LoadProject(
-	project_type__ ProjectType,
+	eProjectType ProjectType,
 	const str::string_ &ProjectFeature,
 	const sInfo &Info )
 {
@@ -938,7 +940,7 @@ void sclmisc::LoadProject( const sInfo &Info )
 qRH
 	str::string Feature;
 	str::string RawType;
-	project_type__ Type = pt_Undefined;
+	eProjectType Type = pt_Undefined;
 qRB
 	Feature.Init();
 	OGetValue( sclrgstry::parameter::project::Feature, Feature );

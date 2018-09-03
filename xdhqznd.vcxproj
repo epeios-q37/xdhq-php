@@ -25,7 +25,7 @@
   <Import Project="Windows.targets"/>
   <Import Project="Details.props"/>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>553d9ebf-52e2-4540-9ca2-4d5dc7ded0d4</ProjectGuid>
+    <ProjectGuid>a74fbffe-dc13-4314-abae-10918ec4590b</ProjectGuid>
     <RootNamespace>xdhqznd</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
@@ -66,14 +66,9 @@
   <ItemGroup>
     <ClCompile Include="src/xdhqznd.cpp"/>
     <ClCompile Include="src/registry.cpp"/>
-    <ClCompile Include="src/treep.cpp"/>
     <ClCompile Include="src/xdhp.cpp"/>
     <ClCompile Include="src/prtcl.cpp"/>
     <ClCompile Include="src/proxy.cpp"/>
-    <ClCompile Include="src/prxy_cmn.cpp"/>
-    <ClCompile Include="src/prxy_recv.cpp"/>
-    <ClCompile Include="src/prxy_send.cpp"/>
-    <ClCompile Include="src/tree.cpp"/>
     <ClCompile Include="src/epeios/ags.cpp"/>
     <ClCompile Include="src/epeios/aem.cpp"/>
     <ClCompile Include="src/epeios/bch.cpp"/>
@@ -150,6 +145,7 @@
     <ClCompile Include="src/epeios/csdmns.cpp"/>
     <ClCompile Include="src/epeios/csdscb.cpp"/>
     <ClCompile Include="src/epeios/sclargmnt.cpp"/>
+    <ClCompile Include="src/epeios/scli.cpp"/>
     <ClCompile Include="src/epeios/sclmisc.cpp"/>
     <ClCompile Include="src/epeios/sclerror.cpp"/>
     <ClCompile Include="src/epeios/scllocale.cpp"/>

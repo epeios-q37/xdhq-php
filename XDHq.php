@@ -17,135 +17,122 @@
 	You should have received a copy of the GNU Affero General Public License
 	along with XDHq.  If not, see <http://www.gnu.org/licenses/>.
 */
+require 'XDHqSHRD.php';
+require 'XDHqDEMO.php';
 
-function getZNDq() {
-	if (getenv("EPEIOS_SRC") === false)
-		$zndq_path = realpath(dirname(__FILE__)) . '/';
-	else {
-		switch (strtoupper(substr(php_uname('s') , 0, 3))) {
-			case "WIN":
-				$epeios_path = "h:\\hg\\epeios\\";
+if ( false && XDHq_SHRD::isDev() )
+	require 'XDHqPROD.php';
+
+
+class XDHq extends XDHq_SHRD{
+	const MODE_PROD = 0;
+	const MODE_DEMO = 1;
+	const MODE_UNDEFINED = 2;
+	private static $mode_ = self::MODE_UNDEFINED;
+	private static $dir_;
+	private static function getAssetPath_() {
+		if ( parent::isDev() )
+			return "h:/hg/epeios/tools/xdhq/examples/common/" . self::$dir_ . "/";
+		else
+			return "./";
+	}
+	private static function getAssetFilename_( $path ) {
+		return self::getAssetPath_() . $path;
+	}
+	static function readAsset( $path ) {
+		return file_get_contents( self::getAssetFilename_( $path ) );
+	}
+	static function launch( $newSessionAction, $mode, $dir ) {
+		self::$mode_ = $mode;
+		self::$dir_ = $dir;
+
+		switch ( $mode ) {
+		case self::MODE_PROD:
+			XDHq_PROD::launch( $newSessionAction );
 			break;
-			case "LIN":
-				$epeios_path = "/home/csimon/hg/epeios/";
+		case self::MODE_DEMO:
+			XDHq_DEMO::launch( $newSessionAction );
 			break;
-			case "DAR":
-				$epeios_path = "/Users/csimon/hg/epeios/";
-			break;
-			default:
-				echo "Unknown OS !!!\n";
+		default:
+			throw new Exception( "Unknown mode !!!");
 			break;
 		}
-
-		$zndq_path = $epeios_path . "tools/zndq/";
 	}
-
-	require( $zndq_path . "ZNDq.php");
-}
-
-getZNDq();
-
-class XDHqWrapper extends ZNDq {
-	static private $launcher;
-	static function init() {
-		self::$launcher = parent::register_( "xdhq" );
+	static function getMode() {
+		return self::$mode_;
 	}
-	static public function componentInfo() {
-		return parent::componentInfo_( self::$launcher );
-	}
-	static protected function _call( $id, ...$args ) {
-		return parent::call_( self::$launcher, $id, ...$args );
+	static function isDEMO() {
+		return self::getMode() == self::MODE_DEMO;
 	}
 }
 
-XDHqWrapper::init();
 
-class XDHq extends XDHqWrapper {
-	static function returnArgument($argument) {
-		return parent::_call(0, $argument);
-	}
-	static function launch ( string $newSessionAction ) {
-		parent::_call( 7, "53752", $newSessionAction );
-	}
-}
-
-class XDHQTree extends XDHqWrapper {
-	private $core;
-	function __construct() {
-		$this->core = parent::_call( 1 );
-	}
-	private function call( $id, ...$args ) {
-		return parent::_call( $id, $this->core, ...$args );
-	}
-	function __destruct() {
-		self::call( 2 );
-	}
-	function pushTag( string $name ) {
-		self::call( 3, $name );
-	}
-	function popTag() {
-		self::call( 4 );
-	}
-	function putValue( string $value )
-	{
-		self::call( 5, $value );
-	}
-	function putAttribute( string $name, string $value ) {
-		self::call( 6, $name, $value );
-	}
-	function getCore() {
-		return $this->core;
-	}
-}
-
-class XDHqDOM extends XDHqWrapper {
-	private $core;
-	private function split( array $keysAndValues, array &$keys, array &$values ) {
+class XDHqDOM extends Threaded {
+	private $dom_;
+	private function split_( array $keysAndValues, array &$keys, array &$values ) {
 		foreach ($keysAndValues as $key => $value) {
 			$keys[] = $key;
 			$values[] = $value;
 		}
 	}
-	private function unsplit( array $keys, array $values ) {
+	function __construct() {
+		switch ( XDHq::getMode() ) {
+		case XDHq::MODE_PROD:
+			$this->dom_ = new XDHqDOM_PROD;
+			break;
+		case XDHq::MODE_DEMO:
+			$this->dom_ = new XDHqDOM_DEMO;
+			break;
+		default:
+			die( "Unknown mode !!!");
+		}
+	}
+	private function unsplit_( array $keys, array $values ) {
 		$count = count( $keys );
 		$i = 0;
 		$keysAndValues = [];
 
 		while ( $i < $count ) {
 			$keysAndValues[$keys[$i]] = $values[$i];
-
 			$i++;
 		}
 
 		return $keysAndValues;
 	}
-	function __construct() {
-		$this->core = parent::_call( 8 );
-	}
-	private function call( $id, ...$args ) {
-		return parent::_call( $id, $this->core, ...$args );
+	private function call_( ...$args ) {
+		return $this->dom_->call( ...$args );
 	}
 	function getAction( &$id ) {
-		$return = self::call( 9 );
-
-		$id = $return[0];
-
-		return $return[1];
+		return $this->dom_->getAction( $id );
 	}
 	function execute( $script ) {
-		return self::call( 10 );
+		return self::call_( "Execute_1", XDHq::RT_STRING, 1, $script, 0 );
 	}
 	function alert( string $message ) {
-		self::call( 11, $message );
+		self::call_( "Alert_1", XDHq::RT_NONE, 1, $message, 0 );
 	}
 	function confirm( string $message ) {
-		return self::call( 12, $message );
+		return self::call_( "Confirm_1", XDHq::RT_STRING, 1, $message, 0 ) == "true";
 	}
-	function setLayout(string  $id, XDHqTree $tree, string $xslFilename ) {
-		self::call( 13, $id, $tree->getCore(), $xslFilename );
+	private function setLayout_(string  $id, $tree, string $xslFilename ) {
+		self::call_( "SetLayout_1", XDHq::RT_NONE, 3, $id, $tree, $xslFilename, 0 );
+	}
+	function headUp(string $html ) {
+		self::setLayout_( "_xdh_head", $html, "" );
+	}
+	function setLayout(string  $id, string $html ) {
+		self::setLayout_( $id, $html, "" );
+	}
+	function setLayoutXSL(string  $id, string $xml, string $xsl ) {
+		$xslURL = $xsl;
+
+		if ( XDHq::isDEMO() )
+			$xslURL = "data:text/xml;charset=utf-8," . rawurlencode( XDHq::readAsset( $xsl ) );
+			
+		self::setLayout_( $id, $xml, $xslURL );
 	}
 	function getContents( array $ids ) {
-		return self::unsplit($ids,self::call( 14,$ids ));
+		return self::unsplit_($ids,self::call_( "GetContents_1", XDHq::RT_STRINGS, 0, 1, $ids ));
 	}
 	function getContent( string $id ) {
 		return self::getContents( [$id] )[$id];
@@ -154,73 +141,70 @@ class XDHqDOM extends XDHqWrapper {
 		$ids = [];
 		$contents = [];
 
-		self::split( $idsAndContents, $ids, $contents );
+		self::split_( $idsAndContents, $ids, $contents );
 
-		self::call( 15, $ids, $contents );
+		self::call_( "SetContents_1", XDHq::RT_NONE, 0, 2, $ids, $contents );
 	}
 	function setContent( string $id, string $content ) {
 		self::setContents( [ $id => $content ] );
 	}
 	function dressWidgets( string $id ) {
-		return self::call( 16, $id );
+		return self::call_( "DressWidgets_1", XDHq::RT_NONE, 1, $id, 0 );
 	}
-	private function handleClasses( $fid, array $idsAndClasses ) {
+	private function handleClasses( $command, array $idsAndClasses ) {
 		$ids = [];
 		$classes = [];
 
-		self::split( $idsAndClasses, $ids, $classes );
-		self::call( $fid, $ids, $classes );
-	}
-	private function handleClass( $fid, $id, $class ) {
-		self::handleClasses( $fid, [ $id => $class ] );
+		self::split_( $idsAndClasses, $ids, $classes );
+		self::call_( $command, XDHq::RT_NONE, 0, 2, $ids, $classes );
 	}
 	function addClasses( array $idsAndClasses ) {
-		self::handleClasses( 17, $idsAndClasses );
-	}
-	function addClass( string $id, string $class  ) {
-		self::handleClass( 17, $id, $class );
+		self::handleClasses( "AddClasses_1", $idsAndClasses );
 	}
 	function removeClasses( array $idsAndClasses ) {
-		self::handleClasses( 18, $idsAndClasses );
-	}
-	function removeClass( string $id, string $class  ) {
-		self::handleClass( 18, $id, $class );
+		self::handleClasses( "RemoveClasses_1", $idsAndClasses );
 	}
 	function toggleClasses( array $idsAndClasses ) {
-		self::handleClasses( 19, $idsAndClasses );
+		self::handleClasses( "ToggleClasses_1", $idsAndClasses );
+	}
+	function addClass( string $id, string $class  ) {
+		self::addClasses( [ $id => $class ] );
+	}
+	function removeClass( string $id, string $class  ) {
+		self::handleClasses( [ $id => $class ] );
 	}
 	function toggleClass( string $id, string $class  ) {
-		self::handleClass( 19, $id, $class );
+		self::toggleClasses( [ $id => $class ] );
 	}
 	function enableElements( array $ids ) {
-		self::call( 20, $ids );
+		self::call_( "EnableElements_1", XDHq::RT_NONE, 0, 1, $ids );
 	}
 	function enableElement( string $id ) {
 		self::enableElements( array( $id ) );
 	}
 	function disableElements( array $ids ) {
-		self::call( 21, $ids  );
+		self::call_( "DisableElements_1", XDHq::RT_NONE, 0, 1, $ids  );
 	}
 	function disableElement( string $id ) {
 		self::disableElements( array( $id ) );
 	}
 	function setAttribute( string $id, string $name, string $value ) {
-		return self::call( 22, $id, $value );
+		return self::call_( "SetAttribute_1", XDHq::RT_NONE, 2, $id, $value, 0 );
 	}
 	function getAttribute( string $id, string $name ) {
-		return self::call( 23, $id, $name );
+		return self::call_( "GetAttribute_1", XDHq::RT_STRING, 2, $id, $name, 0 );
 	}
 	function removeAttribute( string $id, string $name ) {
-		self::call( 24, $id );
+		self::call_( "RemoveAttribute_1", XDHq::RT_NONE, 1, $id, 0 );
 	}
 	function setProperty( string $id, string $name, string $value ) {
-		return self::call( 25, $id, $name, $value );
+		return self::call_( "SetProperty_1", XDHq::RT_NONE, 3, $id, $name, $value, 0 );
 	}
 	function getProperty( string $id, string $name ) {
-		return self::call( 26, $id, $name );
+		return self::call_( "GetPropertY_1", XDHq::RT_STRING, 2, $id, $name, 0 );
 	}
 	function focus( string $id ) {
-		self::call( 27, $id );
+		self::call_( "Focus_1", XDHq::RT_NONE, 1, $id, 0 );
 	}
 }
 ?>

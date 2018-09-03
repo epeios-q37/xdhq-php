@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 1999-2017 Claude SIMON (http://q37.info/contact/).
+	Copyright (C) 1999 Claude SIMON (http://q37.info/contact/).
 
 	This file is part of the Epeios framework.
 
@@ -146,13 +146,13 @@ qRE
 		void reset( bso::sBool P = true )
 		{
 			if ( P ) {
-				if ( S_.Mutex != mtx::UndefinedHandler )
+				if ( S_.Mutex != mtx::Undefined )
 					mtx::Delete( S_.Mutex );
 			}
 
 			UPs.reset( P );
-			S_.Mutex = mtx::UndefinedHandler;
-			S_.Log.Mutex = mtx::UndefinedHandler;
+			S_.Mutex = mtx::Undefined;
+			S_.Log.Mutex = mtx::Undefined;
 			S_.Log.Callback = NULL;
 
 		}
@@ -280,7 +280,7 @@ qRE
 		void _Clean( void );	// Appelle le 'PostProcess' pour tous les objets utilisateurs.
 	protected:
 		virtual void *CSDSCBPreProcess(
-			fdr::rRWDriver *IODriver,
+			fdr::rRWDriver *RWDriver,
 			const ntvstr::char__ *Origin ) override
 		{
 			_Origin.Init( Origin );

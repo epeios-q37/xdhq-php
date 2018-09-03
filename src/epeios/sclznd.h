@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 1999-2017 Claude SIMON (http://q37.info/contact/).
+	Copyright (C) 1999 Claude SIMON (http://q37.info/contact/).
 
 	This file is part of the Epeios framework.
 
@@ -29,6 +29,7 @@
 # endif
 
 # include "bso.h"
+# include "cpe.h"
 # include "err.h"
 # include "n4znd.h"
 # include "scln4a.h"
@@ -36,6 +37,13 @@
 
 namespace sclznd {
 	typedef scln4a::sCaller sCaller_;
+# ifdef CPE_F_32BITS
+	typedef bso::sS32 sLong;
+# endif
+
+# ifdef CPE_F_64BITS
+	typedef bso::sS64 sLong;
+# endif
 
 	class sCaller
 	: public sCaller_ {
@@ -45,7 +53,7 @@ namespace sclznd {
 		{
 			C_().GetArgument( Index_++, n4znd::tString, &String );
 		}
-		void Get_( bso::sS64 &Long )
+		void Get_( sLong &Long )
 		{
 			C_().GetArgument( Index_++, n4znd::tLong, &Long );
 		}
@@ -82,7 +90,7 @@ namespace sclznd {
 
 			return Driver;
 		}
-		void Get( bso::sS64 &Long )
+		void Get( sLong &Long )
 		{
 			Get_( Long );
 		}
@@ -94,7 +102,7 @@ namespace sclznd {
 		{
 			Get_( Strings );
 		}
-		// Termination method for below lethod.
+		// Termination method for below method.
 		void Get( void )
 		{}
 		template <typename arg, typename ...args> void Get(
@@ -108,7 +116,7 @@ namespace sclznd {
 		{
 			C_().SetReturnValue( n4znd::tString, &String );
 		}
-		void SetReturnValue( bso::sS64 Long )
+		void SetReturnValue( sLong Long )
 		{
 			C_().SetReturnValue( n4znd::tLong, &Long );
 		}
@@ -190,7 +198,7 @@ namespace sclznd {
 	}
 
 	void SCLZNDInfo( txf::sWFlow &Flow );	// To define by user.
-	const sclmisc::sInfo &SCLZNDRegister( sRegistrar &Registrar );	// To define by user
+	const scli::sInfo &SCLZNDRegister( sRegistrar &Registrar );	// To define by user
 }
 
 # define SCLZND_F( name ) void name( sclznd::sCaller &Caller )

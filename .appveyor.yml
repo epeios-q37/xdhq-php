@@ -1,7 +1,7 @@
 # php.appveyor
 
 environment:
-  version: 20180414
+  version: 20180816
   affix: xdhq
   ext: dll
   zip: $(affix)znd-v$(version)-win-$(platform).zip  

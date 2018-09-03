@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 1999-2017 Claude SIMON (http://q37.info/contact/).
+	Copyright (C) 1999 Claude SIMON (http://q37.info/contact/).
 
 	This file is part of the Epeios framework.
 
@@ -60,13 +60,13 @@ namespace csdscb {
 			return false;
 		}
 		virtual void *CSDSCBPreProcess(
-			fdr::rRWDriver *IODriver,
-			const ntvstr::char__ *Origin ) = 0;	// If set to true, it means that the 'Flow' will be destructed downstream.
+			fdr::rRWDriver *RWDriver,
+			const ntvstr::char__ *Origin ) = 0;
 		virtual eAction CSDSCBProcess(
-			fdr::rRWDriver *IODriver,
+			fdr::rRWDriver *RWDriver,
 			void *UP ) = 0;
 		// If the returned value is 'true', the underlying socket will be closed.
-		// Usefull when the socket reading and writing are not handled by the same thread, so the other thread may not be wait indefinatly ( used in 'prxyq').
+		// Useful when the socket reading and writing are not handled by the same thread, so the other thread may not be wait indefinitely ( used in 'prxyq').
 		virtual bso::sBool CSDSCBPostProcess( void *UP ) = 0;
 	public:
 		qCALLBACK( Processing );
@@ -78,16 +78,16 @@ namespace csdscb {
 			return CSDSCBPluginOverride( Id, Arguments, Timeout );
 		}
 		void *PreProcess(
-			fdr::rRWDriver *IODriver,
+			fdr::rRWDriver *RWDriver,
 			const ntvstr::char__ *Origin )
 		{
-			return CSDSCBPreProcess( IODriver, Origin );
+			return CSDSCBPreProcess( RWDriver, Origin );
 		}
 		eAction Process(
-			fdr::rRWDriver *IODriver,
+			fdr::rRWDriver *RWDriver,
 			void *UP )
 		{
-			return CSDSCBProcess( IODriver, UP );
+			return CSDSCBProcess( RWDriver, UP );
 		}
 		// If the returned value is 'true', the underlying socket has to be closed upstream.
 		bso::sBool PostProcess( void *UP )

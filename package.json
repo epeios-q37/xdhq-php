@@ -1,14 +1,14 @@
 {
   "name": "xdhqznd",
-  "version": "2018.4.14",
+  "version": "2018.8.16",
   "author": "Claude SIMON (http://q37.info/contact/)",
   "description": "PHP extension template",
   "main": "XDHq.js",
   "binary": {
     "module_name": "xdhqznd",
     "module_path": "./",
-    "remote_path": "./epeios-q37/xdhq-php/releases/download/v20180414/",
-    "package_name": "{module_name}-v20180414-{platform}-{arch}.tar.gz",
+    "remote_path": "./epeios-q37/xdhq-php/releases/download/v20180816/",
+    "package_name": "{module_name}-v20180816-{platform}-{arch}.tar.gz",
     "host": "https://github.com"
   },
   "dependencies": {

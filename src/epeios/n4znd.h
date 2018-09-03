@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 1999-2017 Claude SIMON (http://q37.info/contact/).
+	Copyright (C) 1999 Claude SIMON (http://q37.info/contact/).
 
 	This file is part of the Epeios framework.
 
@@ -47,7 +47,7 @@ namespace n4znd {
 	qENUM( Type ) {
 		tString,
 		tStream,
-		tLong,
+		tLong,	// Only available integer type !
 		tBool,
 		tStrings,
 		t_amount,

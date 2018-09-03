@@ -31,60 +31,8 @@
 
 namespace prtcl {
 	static qCDEF( char *, ProtocolId, "712a58bf-2c9a-47b2-ba5e-d359a99966de" );
+	static qCDEF( char *, StandBy, "StandBy_1" );	// Send as command to report that there is no more command to handle.
 	qCDEF( bso::sU8, ProtocolVersion, 0 );
-
-	qENUM( Request ) {
-		rLaunch_1,	// Event was launched.
-		rReady_1,	// Potential pending data are available, and client is available for new action.
-		r_amount,
-		r_Undefined
-	};
-
-	const char *GetLabel( eRequest Request );
-
-	eRequest GetRequest( const str::dString &Pattern );
-
-	eRequest GetRequest( flw::iflow__ &Flow );
-
-	void PutRequest(
-		eRequest Request,
-		flw::oflow__ &Flow );
-
-	qENUM( Answer )
-	{
-		aOK_1,
-		aError_1,
-		aExecute_1,
-		aAlert_1,
-		aConfirm_1,
-		aSetLayout_1,
-		aGetContents_1,
-		aSetContents_1,
-		aDressWidgets_1,
-		aAddClasses_1,
-		aRemoveClasses_1,
-		aToggleClasses_1,
-		aEnableElements_1,
-		aDisableElements_1,
-		aSetAttribute_1,
-		aGetAttribute_1,
-		aRemoveAttribute_1,
-		aSetProperty_1,
-		aGetProperty_1,
-		aFocus_1,
-		a_amount,
-		a_Undefined
-	};
-
-	const char *GetLabel( eAnswer Answer );
-
-	eAnswer GetAnswer( const str::dString &Pattern );
-
-	eAnswer GetAnswer( flw::iflow__ &Flow );
-
-	void PutAnswer(
-		eAnswer Answer,
-		flw::oflow__ &Flow );
 
 	using csdcmn::Put;
 	using csdcmn::Get;
