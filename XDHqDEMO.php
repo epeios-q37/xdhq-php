@@ -85,7 +85,6 @@ class XDHqDOM_DEMO extends Threaded {
   } else {
    return "";
   }
-
  }
  private function getStrings_($socket) {
   $amount = $this->getSize_($socket);
@@ -128,8 +127,16 @@ class XDHqDOM_DEMO extends Threaded {
   }
 
   if ($this->isTokenEmpty_()) {
-   if (getenv("ATK_TOKEN") !== false) {
-    self::$token = "_" . getenv("ATK_TOKEN");
+
+   $token = getenv("ATK_TOKEN");
+
+   if ($token !== false) {
+
+    $token = trim($token);
+
+    if ($token !== "") {
+     self::$token = "_" . $token;
+    }
    }
   }
 
@@ -156,7 +163,7 @@ class XDHqDOM_DEMO extends Threaded {
 
    $url = "http://" . $address . $httpPort . "/" . $cgi . ".php?_token=" . self::$token;
    echo $url . "\n";
-   echo "Open above URL in a web browser, if not already done. Enjoy!\n";
+   echo "Open above URL in a web browser. Enjoy!\n";
    XDHq_SHRD::open($url);
   } else {
    if ($this->getString_($this->socket) != self::$token) {
