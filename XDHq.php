@@ -19,6 +19,7 @@
 */
 require 'XDHqSHRD.php';
 require 'XDHqDEMO.php';
+require 'XDHqXML.php';
 
 if ( false && XDHq_SHRD::isDev() )
 	require 'XDHqPROD.php';
@@ -33,8 +34,10 @@ class XDHq extends XDHq_SHRD{
 	private static function getAssetPath_( $dir ) {
 		if ( parent::isDev() )
 			return "h:/hg/epeios/tools/xdhq/examples/common/" . $dir . "/";
-		else
-			return "./";
+		else {
+			list($script)=get_included_files();
+			return dirname($script) . "/";
+		}
 	}
 	private static function getAssetFilename_( $path, $dir ) {
 		return self::getAssetPath_( $dir ) . $path;
@@ -120,13 +123,13 @@ class XDHqDOM extends Threaded {
 	function setLayout(string  $id, string $html ) {
 		self::setLayout_( $id, $html, "" );
 	}
-	function setLayoutXSL(string  $id, string $xml, string $xsl ) {
+	function setLayoutXSL(string  $id, $xml, string $xsl ) {
 		$xslURL = $xsl;
 
 		if ( XDHq::isDEMO() )
 			$xslURL = "data:text/xml;charset=utf-8," . rawurlencode( XDHq::readAsset( $xsl, XDHq::$dir ) );
 			
-		self::setLayout_( $id, $xml, $xslURL );
+		self::setLayout_( $id, is_string($xml) ? $xml : $xml->toString(), $xslURL );
 	}
 	function getContents( array $ids ) {
 		return self::unsplit_($ids,self::call_( "GetContents_1", XDHq::RT_STRINGS, 0, 1, $ids ));
@@ -177,7 +180,7 @@ class XDHqDOM extends Threaded {
 		self::addClasses( [ $id => $class ] );
 	}
 	function removeClass( string $id, string $class  ) {
-		self::handleClasses( [ $id => $class ] );
+		self::removeClasses( [ $id => $class ] );
 	}
 	function toggleClass( string $id, string $class  ) {
 		self::toggleClasses( [ $id => $class ] );

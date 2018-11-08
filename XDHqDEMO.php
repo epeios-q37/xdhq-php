@@ -32,7 +32,7 @@ class XDHqDOM_DEMO extends Threaded {
  private static $protocolLabel = "712a58bf-2c9a-47b2-ba5e-d359a99966de";
  private static $protocolVersion = "0";
  private static function isTokenEmpty_() {
-  return empty(self::$token) || (substr(self::$token, 0, 1) == '_');
+  return empty(self::$token) || (substr(self::$token, 0, 1) == '&');
  }
  private function writeSize_($socket, $size) {
   $result = pack("C", $size & 0x7f);
@@ -118,11 +118,14 @@ class XDHqDOM_DEMO extends Threaded {
    case 'DEV':
     $address = "localhost";
     $httpPort = ":8080";
+	echo("\tDEV mode !\n");
     break;
    case 'TEST':
     $cgi = "xdh_";
+	echo("\tTEST mode !\n");
     break;
    default:
+	die( "Bad 'ATK' environment variable value : should be 'DEV' or 'TEST' !" );
    }
   }
 
@@ -135,7 +138,7 @@ class XDHqDOM_DEMO extends Threaded {
     $token = trim($token);
 
     if ($token !== "") {
-     self::$token = "_" . $token;
+     self::$token = "&" . $token;
     }
    }
   }
@@ -143,7 +146,7 @@ class XDHqDOM_DEMO extends Threaded {
   $this->socket = fsockopen($address, $port, $errno, $errstr);
 
   if (!$this->socket) {
-   throw new Exception("$errstr ($errno)\n");
+   die("$errstr ($errno)\n");
   }
 
   $this->writeString_(self::$token, $this->socket);
